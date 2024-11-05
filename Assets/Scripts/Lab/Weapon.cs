@@ -3,25 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
-    public string owner;
+    [SerializeField] int damage;
+    public int Damage {  get { return damage; } }
+    public IShootable shooter;
+
     public abstract void Move();
     public abstract void OnHitWith(Character character);
-    private int damage;
-    public int Damage
+    
+    public void Init(int _damage,IShootable _owner)
     {
-        get
-        {
-            return damage;
-        }
-        set
-        {
-            damage = value;
-        }
+        Damage = _damage;
+        shooter = _owner;
+
     }
-    public string Owner { get; set; }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        OnHitWith(other.GetComponent<Character>());
+        Destroy(this.gameObject, 5f);
+    }
 
     public int GetShootDirection()
     {
-        return 1; 
+       float shootDir = shooter.SpawnPoint.position.x - shooter.SpawnPoint.parent.position.x;
+        if (shootDir > 0)
+            return 1;
+        else return -1;
+
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using UnityEngine;
 
 public abstract class Character : MonoBehaviour
@@ -34,4 +35,13 @@ public abstract class Character : MonoBehaviour
     {
         Health = newHealth;
     }
+    public void Shoot()
+    {
+        if (WaitTime >= ReloadTime)
+        {
+           animat
+        }
+    }
+
+
 }
