@@ -25,9 +25,12 @@ public abstract class Character : MonoBehaviour
 
     public bool IsDead()
     {
-        return Health <= 0;
+      if(Health <= 0)
+        {
+
+        }
     }
-    public void takeDmage(int damage)
+    public void TakeDamage(int damage)
     {
         Health -= damage;
     }
@@ -39,7 +42,7 @@ public abstract class Character : MonoBehaviour
     {
         if (WaitTime >= ReloadTime)
         {
-           animat
+          
         }
     }
 

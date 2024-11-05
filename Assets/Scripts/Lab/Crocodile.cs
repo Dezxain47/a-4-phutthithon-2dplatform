@@ -15,7 +15,12 @@ public class Crocodile : Enemy
 
     private void Start()
     {
-        Init(100);
+        Init(30);
+        WaitTime = 0.0f;
+        RelodeTme = 5.0f;
+        DamageHit = 30;
+        attackRange = 6;
+        player = GameObject.FindObjectOfType<Player>();
     }
 
     private void Update()
@@ -43,7 +48,15 @@ public class Crocodile : Enemy
 
     private void Shoot()
     {
-        Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
+        if (WaitTime >= ReloadTime)
+        {
+            animator.SetTrigger("Shoot");
+            GameObject obj = Instantiate(bullet,bulletSpawnPoint.position, Quaternion.identity);
+            Rock rockScipt = obj.GetComponent<Rock>();
+            rockScipt.Init(20, this);
+
+            WaitTime = 0;
+        }
     }
 
 
