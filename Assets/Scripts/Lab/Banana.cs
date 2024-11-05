@@ -3,19 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Banana : Weapon
 {
-    public float speed = 4f; 
-    public int damage = 30;  
+    [SerializeField] float speed;
     private void Start()
+    {
+        Damage = 10;
+        speed = 4.0f * GetShootDirection();
+        
+    }
+    private void FixedUpdate()
     {
         Move();
     }
+
     public override void Move()
     {
-        Debug.Log("Banana เคลื่อนที่ด้วย Transform ด้วยความเร็วคงที่");
-        transform.Translate(Vector3.right * speed * Time.deltaTime);
+        float newX = transform.position.x + speed * Time.fixedDeltaTime;
+        float newY = transform.position.y;
+        Vector2 newPositio = new Vector2(newX, newY);
+        transform.position = newPositio;
     }
     public override void OnHitWith(Character character)
     {
-        // อิมพลีเมนต์สำหรับการกระทำเมื่อกระทบกับตัวละคร
+        if (character is Enemy)
+        {
+            character.TakeDamage(this.Damage);
+        }
     }
 }
