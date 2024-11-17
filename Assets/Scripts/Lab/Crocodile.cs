@@ -1,38 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class Crocodile : Enemy
+public class Crocodile : Enemy, IShootable
 {
     [SerializeField] private float attackRange;
     [SerializeField] private Player player;
 
-    [SerializeField] private GameObject bullet;
-    [SerializeField] private Transform bulletSpawnPoint;
-    [SerializeField] private float bulletWaitTime;
-    [SerializeField] private float bulletTimer;
+    [field: SerializeField] public GameObject Bullet { get; set; }
+    [field: SerializeField] public Transform BulletSpawnPoint { get; set; }
+    public float BulletWaitTime { get; set; }
+    public float BulletTimer { get; set; }
 
 
     private void Start()
     {
         Init(30);
-        WaitTime = 0.0f;
-        RelodeTme = 5.0f;
-        DamageHit = 30;
-        attackRange = 6;
-        player = GameObject.FindObjectOfType<Player>();
+        BulletWaitTime = 1.0f;
+        BulletTimer = 5.0f;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        bulletTimer -= Time.deltaTime;
+        BulletTimer -= Time.deltaTime;
 
         Behaviour();
 
-        if (bulletTimer < 0)
-        {
-            bulletTimer = bulletWaitTime;
-        }
+
     }
 
     public override void Behaviour()
@@ -46,16 +41,15 @@ public class Crocodile : Enemy
         }
     }
 
-    private void Shoot()
+    public void Shoot()
     {
-        if (WaitTime >= ReloadTime)
+        if (BulletTimer < 0)
         {
-            animator.SetTrigger("Shoot");
-            GameObject obj = Instantiate(bullet,bulletSpawnPoint.position, Quaternion.identity);
-            Rock rockScipt = obj.GetComponent<Rock>();
-            rockScipt.Init(20, this);
-
-            WaitTime = 0;
+            anim.SetTrigger("Shoot");
+            GameObject obj = Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
+            Rock rockScript = obj.GetComponent<Rock>();
+            rockScript.Init(20, this);
+            BulletTimer = BulletWaitTime;
         }
     }
 

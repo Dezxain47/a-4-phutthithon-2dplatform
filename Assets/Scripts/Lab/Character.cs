@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
 using UnityEngine;
 
 public abstract class Character : MonoBehaviour
@@ -25,26 +24,21 @@ public abstract class Character : MonoBehaviour
 
     public bool IsDead()
     {
-      if(Health <= 0)
+        if (health <= 0)
         {
-
+            Destroy(this.gameObject);
+            return true;
         }
+        else return false;
     }
     public void TakeDamage(int damage)
     {
         Health -= damage;
+        Debug.Log($"{this.name} took  {damage} damage; Remaining Health: {this.health}");
+        IsDead();
     }
     public void Init(int newHealth)
     {
         Health = newHealth;
     }
-    public void Shoot()
-    {
-        if (WaitTime >= ReloadTime)
-        {
-          
-        }
-    }
-
-
 }

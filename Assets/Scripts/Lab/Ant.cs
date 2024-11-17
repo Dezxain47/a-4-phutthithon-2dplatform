@@ -24,23 +24,24 @@ public class Ant : Enemy
     {
         Behaviour();
     }
+
     public override void Behaviour()
     {
         rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
 
         if (rb.position.x <= movePoints[0].position.x && velocity.x < 0)
         {
-            flipCharacter();
+            FlipCharacter();
         }
 
         else if (rb.position.x >= movePoints[1].position.x && velocity.x > 0)
         {
-            flipCharacter();
+            FlipCharacter();
         }
 
     }
 
-    private void flipCharacter()
+    private void FlipCharacter()
     {
         velocity *= -1;
 
@@ -48,6 +49,4 @@ public class Ant : Enemy
         charScale.x *= -1;
         transform.localScale = charScale;
     }
-
-
 }

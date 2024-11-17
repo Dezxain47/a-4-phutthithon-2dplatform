@@ -1,38 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
-public class Player : Character , IShootable
+public class Player : Character, IShootable
 {
-    public void Start()
+    [field: SerializeField] public GameObject Bullet { get; set; }
+    [field: SerializeField] public Transform BulletSpawnPoint { get; set; }
+    public float BulletWaitTime { get; set; }
+    public float BulletTimer { get; set; }
+    public void Shoot()
     {
-        if (Input.GetKeyDown("Fire1")&& WaitTime >= RelodeTime)
+       
+        if (Input.GetButtonDown("Fire1") && (BulletTimer < 0))
         {
-            GameObject obj = Instantiate(bullet , SpawnPoint.position,Quaternion.identity);
-
+            GameObject obj = Instantiate(Bullet, BulletSpawnPoint.position, Quaternion.identity);
+            Banana banana = obj.GetComponent<Banana>();
+            banana.Init(10, this);
+            BulletTimer = BulletWaitTime;
         }
     }
 
-    void Update()
+    private void Start()
+    {
+        Init(100);
+        BulletWaitTime = 0.0f;
+        BulletTimer = 2.0f;
+    }
+
+    private void Update()
     {
         Shoot();
     }
-    void FixedUpdate()
+
+    private void FixedUpdate()
     {
-        WaitTime += Time.fixedDeltaTime;
+        BulletTimer -= Time.deltaTime;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-       Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
         if (enemy != null)
         {
             OnHitWith(enemy);
         }
     }
+
     public void OnHitWith(Enemy enemy)
     {
-        TakeDamage(enemy.DamegeHit);
+        TakeDamage(enemy.DamageHit);
     }
+
 }

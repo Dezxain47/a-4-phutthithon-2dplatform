@@ -1,20 +1,26 @@
-Ôªøusing System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class Rock : Weapon
 {
-    Rigidbody2D rb2d;  // Rigidbody2D ‡∏™‡∏≥‡∏´‡∏£‡∏±‡∏ö‡∏Å‡∏≤‡∏£‡πÉ‡∏ä‡πâ Physics
-    Vector2 force; 
+    public Rigidbody2D rb2d;
+    public Vector2 force;
+
+
     private void Start()
     {
-        Init(20,)
+        Damage = 20;
         force = new Vector2(GetShootDirection() * 100, 400);
         Move();
     }
     public override void Move()
     {
+       
+        Debug.Log("Rock ‡§≈◊ËÕπ∑’Ë¥È«¬ RigidBody: force");
         rb2d.AddForce(force, ForceMode2D.Impulse);
     }
+
     public override void OnHitWith(Character character)
     {
         if (character is Player)
@@ -23,3 +29,5 @@ public class Rock : Weapon
         }
     }
 }
+
+
